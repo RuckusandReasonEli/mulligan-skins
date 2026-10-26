@@ -41,6 +41,14 @@ input, select, textarea { font-size: 16px; }
   --tee-black: #16251d;
   --tee-green: #2f7d3a;
   --tee-silver: #7a858c;
+  /* Title bar: a fixed look taken from the app icon, the same in light and dark. */
+  --hero-1: #237a57;
+  --hero-2: #0f4632;
+  --hero-gold: #ecb242;
+  --hero-ink: #ffffff;
+  --hero-soft: rgba(255, 255, 255, .74);
+  --hero-card: rgba(255, 255, 255, .09);
+  --hero-line: rgba(255, 255, 255, .17);
   --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Barlow", system-ui, -apple-system, sans-serif;
 }
@@ -64,12 +72,69 @@ input, select, textarea { font-size: 16px; }
 [hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.4; }
 .wrap { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 40px; display: flex; flex-direction: column; gap: 18px; }
-header h1 { font-family: var(--font-display); font-weight: 700; font-size: 2rem; letter-spacing: .01em; margin: 0; line-height: 1; text-wrap: balance; }
-header p { margin: 4px 0 0; color: var(--muted); font-size: .9rem; }
-header .status { display: flex; align-items: center; gap: 6px; font-size: .8rem; }
-header .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--win); flex: none; }
-header .status.off i { background: var(--tie); }
-header .status.off { color: var(--tie); }
+html { scroll-padding-top: calc(var(--hero-h, 0px) + 8px); }
+
+/* Sticky title bar */
+.hero {
+  position: sticky; top: 0; z-index: 20;
+  margin-inline: -16px; margin-top: calc(-18px - env(safe-area-inset-top, 0px));
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 12px;
+  background: linear-gradient(160deg, var(--hero-1), var(--hero-2));
+  color: var(--hero-ink); border-radius: 0 0 18px 18px; overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { min-width: 0; display: flex; align-items: center; gap: 10px; }
+.brand-text { min-width: 0; }
+.mark { width: 48px; height: 48px; flex: none; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25)); }
+.brand .eyebrow { display: block; font-family: var(--font-display); font-weight: 600; font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--hero-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.45rem, 7.2vw, 1.95rem); line-height: 1; margin: 2px 0 0; letter-spacing: .01em; white-space: nowrap; }
+.hero h1 em { font-style: normal; color: var(--hero-gold); }
+.holepill { flex: none; font: inherit; color: var(--hero-ink); background: var(--hero-card); border: 1px solid var(--hero-line); border-radius: 12px; padding: 5px 12px 6px; text-align: center; cursor: pointer; line-height: 1.05; min-width: 76px; }
+.holepill .hp-l { display: block; font-family: var(--font-display); font-weight: 600; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--hero-soft); }
+.holepill b { display: block; font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.holepill .hp-m { display: block; font-size: .7rem; color: var(--hero-soft); white-space: nowrap; }
+.holepill .hp-m.pot { color: var(--hero-gold); font-weight: 600; }
+.holepill:focus-visible { outline: 2px solid var(--hero-gold); outline-offset: 2px; }
+.hero-players { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 6px; }
+.hp { position: relative; background: var(--hero-card); border: 1px solid var(--hero-line); border-radius: 10px; padding: 6px 4px 7px; text-align: center; min-width: 0; }
+.hp.lead { border-color: var(--hero-gold); }
+.hp .nm { font-size: .76rem; font-weight: 600; color: var(--hero-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hp .sc { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.hp .sc.under { color: var(--hero-gold); }
+.hp .meta { display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 14px; flex-wrap: wrap; }
+.hp .md { display: inline-flex; gap: 2px; }
+.hp .md i { width: 7px; height: 7px; border-radius: 50%; background: var(--hero-gold); }
+.hp .z { font-size: .62rem; color: var(--hero-soft); font-style: normal; white-space: nowrap; }
+.hp .td { display: inline-flex; align-items: center; gap: 3px; font-size: .68rem; font-weight: 600; color: var(--hero-soft); }
+.hp .td i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .65); }
+.hd-gold { background: #e6b04a; } .hd-blue { background: #5b8ee0; } .hd-white { background: #ffffff; } .hd-red { background: #e0675a; }
+.hd-black { background: #111111; } .hd-green { background: #5fbf72; } .hd-silver { background: #c3ccd2; }
+.hp .sk { position: absolute; top: -1px; right: -1px; background: var(--hero-gold); color: var(--hero-2); font-family: var(--font-display); font-weight: 700; font-size: .72rem; line-height: 1; border-radius: 0 9px 0 8px; padding: 3px 6px; }
+.hp.won { animation: wonPulse 1.3s ease-out 2; }
+@keyframes wonPulse { 0% { box-shadow: 0 0 0 0 rgba(236, 178, 66, .95); border-color: var(--hero-gold); } 100% { box-shadow: 0 0 0 14px rgba(236, 178, 66, 0); } }
+.hole { scroll-margin-top: calc(var(--hero-h, 0px) + 8px); }
+
+.status { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); margin: -6px 0 0; }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--win); flex: none; }
+.status.off i { background: var(--tie); }
+.status.off { color: var(--tie); }
+
+/* Skin win celebration */
+.celebrate { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; pointer-events: none; padding: 24px; }
+.celebrate canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cele-card { position: relative; pointer-events: auto; cursor: pointer; text-align: center; padding: 20px 26px 18px; border-radius: 20px; background: linear-gradient(160deg, var(--hero-1), var(--hero-2)); color: var(--hero-ink); border: 2px solid var(--hero-gold); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); max-width: 100%; animation: celeIn .6s cubic-bezier(.2, 1.5, .4, 1) both; }
+.cele-card.out { animation: celeOut .35s ease-in both; }
+.cele-kicker { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .16em; font-size: .78rem; color: var(--hero-soft); }
+.cele-line { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.1; margin-top: 4px; }
+.cele-name { font-family: var(--font-display); font-weight: 700; font-size: 2.7rem; line-height: 1.05; color: var(--hero-gold); overflow-wrap: anywhere; }
+.cele-sub { font-size: .86rem; color: var(--hero-soft); margin-top: 4px; }
+@keyframes celeIn { from { opacity: 0; transform: scale(.45) rotate(-5deg); } to { opacity: 1; transform: none; } }
+@keyframes celeOut { to { opacity: 0; transform: scale(.92) translateY(10px); } }
+@media (prefers-reduced-motion: reduce) {
+  .cele-card, .cele-card.out, .hp.won { animation-duration: .01s; animation-iteration-count: 1; }
+}
 .label { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; color: var(--muted); }
 section.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; margin: 0; letter-spacing: .02em; }
@@ -163,11 +228,33 @@ footer { font-size: .78rem; color: var(--muted); }
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Mulligan Skins</h1>
-    <p id="subtitle"></p>
-    <p class="status" id="status"><i></i><span></span></p>
+  <header class="hero" id="hero">
+    <div class="hero-top">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><clipPath id="markclip"><rect width="100" height="100" rx="23"></rect></clipPath></defs>
+          <g clip-path="url(#markclip)">
+            <rect width="100" height="100" fill="#1b6a4c"></rect>
+            <ellipse cx="70.5" cy="81" rx="26.5" ry="8" fill="#2e9668"></ellipse>
+            <ellipse cx="72.3" cy="80.6" rx="2.6" ry="1" fill="#0b3627"></ellipse>
+            <rect x="71.4" y="25" width="1.9" height="56" rx=".9" fill="#ffffff"></rect>
+            <polygon points="73.3,25.9 90.8,32.2 73.3,38.6" fill="#ecb242"></polygon>
+            <path d="M14.6 83 Q 27.3 40 42 79" fill="none" stroke="#ffffff" stroke-width="3.3" stroke-linecap="round" stroke-dasharray="0 4.8" opacity=".8"></path>
+            <path d="M14.6 83 Q 44 6.8 67.4 76.2" fill="none" stroke="#ecb242" stroke-width="3.2" stroke-linecap="round"></path>
+            <circle cx="67.4" cy="76.2" r="5.6" fill="#ffffff"></circle>
+          </g>
+          <rect x=".75" y=".75" width="98.5" height="98.5" rx="22.5" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5"></rect>
+        </svg>
+        <div class="brand-text">
+          <span class="eyebrow" id="subtitle"></span>
+          <h1>Mulligan <em>Skins</em></h1>
+        </div>
+      </div>
+      <button type="button" class="holepill" id="holepill" aria-label="Jump to the current hole"></button>
+    </div>
+    <div class="hero-players" id="heroPlayers" aria-label="Players"></div>
   </header>
+  <p class="status" id="status"><i></i><span></span></p>
 
   <section class="card" aria-labelledby="setup-h">
     <h2 id="setup-h">Round setup</h2>
@@ -270,6 +357,16 @@ footer { font-size: .78rem; color: var(--muted); }
     <textarea id="bktext" aria-label="Backup text" placeholder="Paste a backup here, then tap Restore from text"></textarea>
     <p class="hint" id="bkmsg" aria-live="polite"></p>
   </section>
+
+  <div class="celebrate" id="celebrate" hidden>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <div class="cele-card" id="celecard" role="status" aria-live="assertive">
+      <div class="cele-kicker" id="cele-kicker"></div>
+      <div class="cele-line">Rad job, skin master</div>
+      <div class="cele-name" id="cele-name"></div>
+      <div class="cele-sub" id="cele-sub"></div>
+    </div>
+  </div>
 
   <footer>Works with no signal once it has been opened from your home screen. Scores save on this phone as you type.</footer>
 </div>
@@ -448,7 +545,7 @@ function renderSetup() {
   $("buyin").value = S.buyin;
   $("subtract").checked = S.subtract;
   const par = sumOrNull(sq.map(parOf));
-  $("subtitle").textContent = [c.name || "Untitled course", par !== null ? `Par ${par}` : null, `${S.holes} holes`, `${S.n} players`].filter(Boolean).join(" · ");
+  $("subtitle").textContent = [c.name || "Untitled course", par !== null ? `Par ${par}` : null, `${S.holes} holes`].filter(Boolean).join(" · ");
   const names = c.tees.map(t => t.name).join(", ");
   $("teerules").innerHTML = c.tees.length < 2
     ? `<span class="label">Tee moves</span><p class="hint">This course has one tee, so tee moves are off. Add tees in Edit this course.</p>`
@@ -530,15 +627,52 @@ function dotsHtml(m) {
   return range(0, m).map(() => `<span class="dot"></span>`).join("");
 }
 
+const playerNames = () => range(0, S.n).map(i => (S.names[i] || "").trim() || `Player ${i + 1}`);
+let lastR = null;
+
+// Sticky title bar: current hole, plus each player's score, mulligans and tee for that hole.
+function renderHero(names, R, RUN, TEES, nextH, pars, c, len) {
+  const n = names.length;
+  const pill = $("holepill");
+  if (nextH === undefined) {
+    pill.innerHTML = `<span class="hp-l">Round</span><b>Final</b><span class="hp-m">${R.carrying ? `${R.carrying} unclaimed` : `${len} holes`}</span>`;
+  } else {
+    const pot = R.carrying + 1;
+    pill.innerHTML = `<span class="hp-l">Hole</span><b>${nextH + 1}</b>` +
+      (pot > 1 ? `<span class="hp-m pot">${pot} skins up</span>` : `<span class="hp-m">${pars[nextH] !== null ? "Par " + pars[nextH] : "1 skin up"}</span>`);
+  }
+  const best = Math.max(...R.skins);
+  const wrap = $("heroPlayers");
+  wrap.style.setProperty("--n", n);
+  wrap.innerHTML = names.map((nm, i) => {
+    const t = RUN.tot[i];
+    let sc = "–", cls = "";
+    if (t.c) {
+      if (t.miss) sc = String(t.s);
+      else { const d = t.s - t.p; sc = toPar(d); cls = d < 0 ? "under" : ""; }
+    }
+    const m = nextH !== undefined && R.holes[nextH].mulls ? R.holes[nextH].mulls[i] : null;
+    const md = m == null ? "" : m === 0 ? `<em class="z">no mull</em>` : `<span class="md" aria-label="${m} mulligan${m > 1 ? "s" : ""}">${"<i></i>".repeat(m)}</span>`;
+    const ti = nextH !== undefined && TEES[nextH] ? TEES[nextH][i] : null;
+    const tee = ti != null ? c.tees[ti] : null;
+    const td = tee ? `<span class="td" aria-label="${esc(tee.name)} tee"><i class="hd-${COLORS.includes(tee.color) ? tee.color : "white"}"></i>${esc((tee.name || "?")[0])}</span>` : "";
+    return `<div class="hp${best > 0 && R.skins[i] === best ? " lead" : ""}" data-i="${i}">
+      ${R.skins[i] ? `<span class="sk" aria-label="${R.skins[i]} skins">${R.skins[i]}</span>` : ""}
+      <div class="nm">${esc(nm)}</div><div class="sc ${cls}">${sc}</div><div class="meta">${md}${td}</div>
+    </div>`;
+  }).join("");
+}
+
 function update() {
   const n = S.n, sq = seq(), len = sq.length, c = course();
-  const names = range(0, n).map(i => (S.names[i] || "").trim() || `Player ${i + 1}`);
+  const names = playerNames();
   const pars = sq.map(parOf);
   const R = computeRound(S.scores, n, len, S.subtract);
   const RUN = computeRunning(S.scores, n, pars);
   const TEES = computeTees(S.scores, n, len, baseTee(), c.tees.length, S.gap, S.teeMoves);
   const nextH = range(0, len).find(h => S.scores[h].slice(0, n).some(v => v === ""));
-
+  lastR = R;
+  renderHero(names, R, RUN, TEES, nextH, pars, c, len);
 
   const subFill = (id, arr, par) => {
     const el = $("sub-" + id); if (!el) return;
@@ -681,7 +815,103 @@ $("edbody").addEventListener("click", e => {
 $("holes").addEventListener("input", e => {
   const el = e.target; if (el.dataset.h === undefined) return;
   el.value = el.value.replace(/\D/g, "").slice(0, 2);
-  S.scores[el.dataset.h][el.dataset.p] = el.value; save(); update();
+  const h = +el.dataset.h;
+  const before = lastR && lastR.holes[h] ? lastR.holes[h].winner : -1;
+  S.scores[h][el.dataset.p] = el.value; save(); update();
+  const after = lastR && lastR.holes[h] ? lastR.holes[h].winner : -1;
+  if (after >= 0 && after !== before) scheduleCelebrate(h);
+  else if (after < 0) clearTimeout(celeTimer);
+});
+
+// Celebration: waits a beat so a two-digit score can finish, then checks the hole is still won.
+let celeTimer = null, celeHide = null;
+const reduceMotion = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function scheduleCelebrate(h) {
+  clearTimeout(celeTimer);
+  celeTimer = setTimeout(() => celebrate(h), 650);
+}
+function celebrate(h) {
+  const r = lastR && lastR.holes[h];
+  if (!r || r.winner < 0) return;
+  const pot = r.text.pot || 1;
+  $("cele-kicker").textContent = `Hole ${h + 1}`;
+  $("cele-name").textContent = playerNames()[r.winner] + "!";
+  $("cele-sub").textContent = pot > 1 ? `Takes ${pot} skins` : "Takes the skin";
+  const box = $("celebrate"), card = $("celecard");
+  card.classList.remove("out");
+  card.style.animation = "none"; void card.offsetWidth; card.style.animation = "";
+  box.hidden = false;
+  const tile = document.querySelector(`#heroPlayers .hp[data-i="${r.winner}"]`);
+  if (tile) { tile.classList.remove("won"); void tile.offsetWidth; tile.classList.add("won"); }
+  confetti();
+  clearTimeout(celeHide);
+  celeHide = setTimeout(hideCelebrate, 3000);
+}
+function hideCelebrate() {
+  const box = $("celebrate"), card = $("celecard");
+  if (box.hidden) return;
+  card.classList.add("out");
+  setTimeout(() => { box.hidden = true; card.classList.remove("out"); }, 340);
+}
+$("celecard").addEventListener("click", () => { clearTimeout(celeHide); hideCelebrate(); });
+
+let confettiRun = 0;
+function confetti() {
+  const cv = $("confetti"), ctx = cv.getContext && cv.getContext("2d");
+  if (!ctx) return;
+  const run = ++confettiRun;
+  if (reduceMotion()) { ctx.clearRect(0, 0, cv.width, cv.height); return; }
+  const dpr = Math.min(2, window.devicePixelRatio || 1), W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cols = ["#ecb242", "#ffffff", "#62c197", "#f6d98b", "#2e9668", "#ecb242"];
+  const k = Math.max(.8, Math.min(1.4, H / 760));
+  const parts = [];
+  for (let i = 0; i < 170; i++) {
+    const left = i % 2 === 0;
+    const ang = (left ? -62 : -118) + (Math.random() * 34 - 17);
+    const sp = (11 + Math.random() * 9) * k;
+    parts.push({
+      x: left ? -6 : W + 6, y: H * .82,
+      vx: Math.cos(ang * Math.PI / 180) * sp, vy: Math.sin(ang * Math.PI / 180) * sp,
+      r: Math.random() * Math.PI, vr: (Math.random() - .5) * .35,
+      w: 6 + Math.random() * 6, h: 4 + Math.random() * 6,
+      c: cols[i % cols.length], round: Math.random() < .25
+    });
+  }
+  const start = performance.now();
+  function frame(now) {
+    if (run !== confettiRun) return;
+    const t = now - start;
+    ctx.clearRect(0, 0, W, H);
+    let alive = 0;
+    for (const p of parts) {
+      p.vy += .3 * k; p.vx *= .985; p.vy *= .985;
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      if (p.y > H + 20) continue;
+      alive++;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+      ctx.globalAlpha = t > 2400 ? Math.max(0, 1 - (t - 2400) / 600) : 1;
+      ctx.fillStyle = p.c;
+      if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.h / 2, 0, Math.PI * 2); ctx.fill(); }
+      else ctx.fillRect(-p.w / 2, -p.h / 2 * Math.abs(Math.cos(p.r * 2)), p.w, p.h * Math.abs(Math.cos(p.r * 2)) + 1);
+      ctx.restore();
+    }
+    if (alive && t < 3000) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  }
+  requestAnimationFrame(frame);
+}
+
+// Title bar height keeps scrolled-to holes clear of it; the hole badge jumps to the current hole.
+(function trackHero() {
+  const set = () => document.documentElement.style.setProperty("--hero-h", $("hero").offsetHeight + "px");
+  set();
+  if (window.ResizeObserver) new ResizeObserver(set).observe($("hero"));
+  else window.addEventListener("resize", set);
+})();
+$("holepill").addEventListener("click", () => {
+  const h = range(0, seq().length).find(i => S.scores[i].slice(0, S.n).some(v => v === ""));
+  const row = $("hole-" + (h === undefined ? seq().length - 1 : h));
+  if (row) row.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
 });
 let armed = false;
 $("reset").addEventListener("click", () => {
