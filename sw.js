@@ -1,5 +1,5 @@
 // Mulligan Skins offline support. Bump VERSION when you change files other than index.html.
-const VERSION = "skins-v1";
+const VERSION = "skins-v2";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/apple-touch-icon.png", "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", e => {
