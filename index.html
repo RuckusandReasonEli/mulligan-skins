@@ -34,6 +34,8 @@ input, select, textarea { font-size: 16px; }
   --pop: #c48712;
   --win: #1d6a50;
   --tie: #8a6d1f;
+  --danger: #b8402c;
+  --on-danger: #ffffff;
   --tee-gold: #9a6a00;
   --tee-blue: #2559a8;
   --tee-white: #5a6a61;
@@ -56,6 +58,7 @@ input, select, textarea { font-size: 16px; }
   :root:not([data-theme="light"]) {
     --bg: #0e1612; --card: #16211b; --ink: #e4ece7; --muted: #93a49a; --line: #293a31;
     --accent: #62c197; --accent-soft: #1d3428; --pop: #e6b04a; --win: #62c197; --tie: #d8b65a;
+    --danger: #c9533d; --on-danger: #ffffff;
     --tee-gold: #e6b04a; --tee-blue: #7fa9ec; --tee-white: #cfd8d2; --tee-red: #ee8577;
     --tee-black: #a9b4ae; --tee-green: #79c785; --tee-silver: #b6c0c6;
     color-scheme: dark;
@@ -64,6 +67,7 @@ input, select, textarea { font-size: 16px; }
 :root[data-theme="dark"] {
   --bg: #0e1612; --card: #16211b; --ink: #e4ece7; --muted: #93a49a; --line: #293a31;
   --accent: #62c197; --accent-soft: #1d3428; --pop: #e6b04a; --win: #62c197; --tie: #d8b65a;
+  --danger: #c9533d; --on-danger: #ffffff;
   --tee-gold: #e6b04a; --tee-blue: #7fa9ec; --tee-white: #cfd8d2; --tee-red: #ee8577;
   --tee-black: #a9b4ae; --tee-green: #79c785; --tee-silver: #b6c0c6;
   color-scheme: dark;
@@ -135,6 +139,28 @@ html { scroll-padding-top: calc(var(--hero-h, 0px) + 8px); }
 @media (prefers-reduced-motion: reduce) {
   .cele-card, .cele-card.out, .hp.won { animation-duration: .01s; animation-iteration-count: 1; }
 }
+
+/* Reset round: confirm dialog, explosion, toast */
+.btn.reset { border-color: var(--danger); color: var(--danger); }
+.modal { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 24px; background: rgba(8, 20, 14, .58); }
+.modal-card { width: 100%; max-width: 340px; background: var(--card); color: var(--ink); border-radius: 16px; padding: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); display: flex; flex-direction: column; gap: 10px; animation: modalIn .22s ease-out both; }
+.modal-card h2 { font-size: 1.4rem; line-height: 1.15; text-wrap: balance; }
+.modal-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; margin-top: 6px; }
+.btn.confirm-reset { background: var(--danger); border-color: var(--danger); color: var(--on-danger); }
+@keyframes modalIn { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+.boom { position: fixed; inset: 0; z-index: 110; pointer-events: none; }
+.boom canvas { width: 100%; height: 100%; display: block; }
+.wrap.shake { animation: shake .55s cubic-bezier(.36, .07, .19, .97) both; }
+@keyframes shake {
+  10%, 90% { transform: translate(-2px, 1px); } 20%, 80% { transform: translate(4px, -2px); }
+  30%, 50%, 70% { transform: translate(-8px, 3px); } 40%, 60% { transform: translate(8px, -3px); }
+}
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 120; background: var(--hero-2); color: var(--hero-ink); border: 1px solid var(--hero-gold); padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: .92rem; white-space: nowrap; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); animation: toastIn .3s ease-out both; }
+.toast.out { animation: toastOut .3s ease-in both; }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes toastOut { to { opacity: 0; transform: translate(-50%, 14px); } }
+@media (prefers-reduced-motion: reduce) { .modal-card, .toast, .toast.out, .wrap.shake { animation-duration: .01s; } }
 .label { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; color: var(--muted); }
 section.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; margin: 0; letter-spacing: .02em; }
@@ -344,7 +370,7 @@ footer { font-size: .78rem; color: var(--muted); }
   </section>
 
   <div class="actions">
-    <button type="button" class="btn danger" id="reset">Clear scores</button>
+    <button type="button" class="btn reset" id="reset">Reset round</button>
   </div>
 
   <section class="card" aria-labelledby="bk-h">
@@ -357,6 +383,18 @@ footer { font-size: .78rem; color: var(--muted); }
     <textarea id="bktext" aria-label="Backup text" placeholder="Paste a backup here, then tap Restore from text"></textarea>
     <p class="hint" id="bkmsg" aria-live="polite"></p>
   </section>
+
+  <div class="modal" id="resetModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="reset-h" aria-describedby="reset-d">
+      <h2 id="reset-h">Are you sure you want to reset scores?</h2>
+      <p id="reset-d">This clears every score, the player names and the player count. Your saved courses and game settings stay.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="resetNo">Cancel</button>
+        <button type="button" class="btn confirm-reset" id="resetYes">Yes, reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="boom" id="boom" hidden><canvas id="boomcv" aria-hidden="true"></canvas></div>
 
   <div class="celebrate" id="celebrate" hidden>
     <canvas id="confetti" aria-hidden="true"></canvas>
@@ -913,13 +951,99 @@ $("holepill").addEventListener("click", () => {
   const row = $("hole-" + (h === undefined ? seq().length - 1 : h));
   if (row) row.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
 });
-let armed = false;
-$("reset").addEventListener("click", () => {
-  const b = $("reset");
-  if (!armed) { armed = true; b.textContent = "Tap again to clear all scores"; setTimeout(() => { armed = false; b.textContent = "Clear scores"; }, 3000); return; }
-  armed = false; b.textContent = "Clear scores";
-  S.scores = emptyScores(); save(); renderHoles(); update();
-});
+// Reset round: ask first, then blow it up.
+function openReset() { $("resetModal").hidden = false; $("resetNo").focus(); }
+function closeReset() { $("resetModal").hidden = true; $("reset").focus(); }
+$("reset").addEventListener("click", openReset);
+$("resetNo").addEventListener("click", closeReset);
+$("resetModal").addEventListener("click", e => { if (e.target.id === "resetModal") closeReset(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("resetModal").hidden) closeReset(); });
+$("resetYes").addEventListener("click", () => { $("resetModal").hidden = true; explode(resetRound); });
+
+function resetRound() {
+  S.scores = emptyScores();
+  S.names = ["", "", "", ""];
+  S.n = 4;
+  S.buyin = "";
+  clearTimeout(celeTimer); clearTimeout(celeHide); $("celebrate").hidden = true;
+  save(); renderAll();
+  window.scrollTo({ top: 0, behavior: "auto" });
+  toast("Round reset. Fresh start.");
+}
+
+function toast(msg) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.classList.add("out"); setTimeout(() => t.remove(), 320); }, 2200);
+}
+
+function explode(onBlast) {
+  if (reduceMotion()) { onBlast(); return; }
+  const box = $("boom"), cv = $("boomcv"), ctx = cv.getContext && cv.getContext("2d");
+  if (!ctx) { onBlast(); return; }
+  if (box.parentNode !== document.body) document.body.appendChild(box);
+  box.hidden = false;
+  const dpr = Math.min(2, window.devicePixelRatio || 1), W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cx = W / 2, cy = H / 2, maxR = Math.hypot(W, H) * .6;
+  const hot = ["#fff3c4", "#ffd36b", "#ff9a3c", "#ff5a36", "#ecb242"];
+  const debris = [];
+  for (let i = 0; i < 150; i++) {
+    const a = Math.random() * Math.PI * 2, sp = 5 + Math.random() * 17;
+    const ball = i < 14;
+    debris.push({ x: cx, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 2, s: ball ? 6 + Math.random() * 3 : 2 + Math.random() * 6,
+      c: ball ? "#ffffff" : hot[i % hot.length], ball, r: Math.random() * 6, vr: (Math.random() - .5) * .5 });
+  }
+  const smoke = Array.from({ length: 16 }, () => {
+    const a = Math.random() * Math.PI * 2, sp = .6 + Math.random() * 2.2;
+    return { x: cx, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - .4, r: 20 + Math.random() * 30 };
+  });
+  const wrapEl = document.querySelector(".wrap");
+  wrapEl.classList.remove("shake"); void wrapEl.offsetWidth; wrapEl.classList.add("shake");
+  setTimeout(() => wrapEl.classList.remove("shake"), 600);
+  const start = performance.now();
+  let blasted = false;
+  function frame(now) {
+    const t = now - start;
+    ctx.clearRect(0, 0, W, H);
+    if (t < 160) { ctx.fillStyle = `rgba(255, 244, 214, ${.6 * (1 - t / 160)})`; ctx.fillRect(0, 0, W, H); }
+    const fp = Math.min(1, t / 520);
+    if (fp < 1) {
+      const r = 30 + fp * maxR * .45;
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0, `rgba(255, 255, 240, ${1 - fp})`);
+      g.addColorStop(.35, `rgba(255, 196, 80, ${.9 * (1 - fp)})`);
+      g.addColorStop(.7, `rgba(255, 110, 50, ${.55 * (1 - fp)})`);
+      g.addColorStop(1, "rgba(255, 90, 40, 0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+    }
+    const rp = Math.min(1, t / 750);
+    if (rp < 1) {
+      const e = 1 - Math.pow(1 - rp, 3);
+      ctx.strokeStyle = `rgba(255, 200, 110, ${1 - rp})`; ctx.lineWidth = 16 * (1 - rp) + 1;
+      ctx.beginPath(); ctx.arc(cx, cy, 20 + e * maxR, 0, Math.PI * 2); ctx.stroke();
+    }
+    for (const s of smoke) {
+      s.x += s.vx; s.y += s.vy; s.r += .9;
+      const a = Math.max(0, .22 * (1 - t / 1500));
+      if (a <= 0) continue;
+      ctx.fillStyle = `rgba(90, 96, 100, ${a})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+    }
+    const fade = t > 1000 ? Math.max(0, 1 - (t - 1000) / 600) : 1;
+    for (const d of debris) {
+      d.vy += .22; d.vx *= .975; d.vy *= .975; d.x += d.vx; d.y += d.vy; d.r += d.vr;
+      ctx.globalAlpha = fade; ctx.fillStyle = d.c;
+      if (d.ball) { ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill(); }
+      else { ctx.save(); ctx.translate(d.x, d.y); ctx.rotate(d.r); ctx.fillRect(-d.s / 2, -d.s / 4, d.s, d.s / 2); ctx.restore(); }
+    }
+    ctx.globalAlpha = 1;
+    if (!blasted && t > 260) { blasted = true; onBlast(); }
+    if (t < 1650) requestAnimationFrame(frame);
+    else { ctx.clearRect(0, 0, W, H); box.hidden = true; }
+  }
+  requestAnimationFrame(frame);
+}
 
 // Backup
 $("copybk").addEventListener("click", () => {
