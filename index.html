@@ -161,6 +161,66 @@ html { scroll-padding-top: calc(var(--hero-h, 0px) + 8px); }
 @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
 @keyframes toastOut { to { opacity: 0; transform: translate(-50%, 14px); } }
 @media (prefers-reduced-motion: reduce) { .modal-card, .toast, .toast.out, .wrap.shake { animation-duration: .01s; } }
+
+/* Finish round */
+.btn.finish { background: var(--accent); border-color: var(--accent); color: var(--card); }
+.btn.finish:disabled { background: transparent; color: var(--muted); border-color: var(--line); opacity: 1; }
+.finishbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 14px; font-size: .92rem; }
+.finishbar b { font-weight: 600; }
+
+/* Past rounds */
+.card-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.past-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.past-list li + li { border-top: 1px solid var(--line); }
+.past-item { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 10px 2px; background: none; border: 0; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.past-item:hover .pi-name { color: var(--accent); }
+.pi-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pi-meta { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pi-win { font-size: .8rem; text-align: right; white-space: nowrap; }
+.pi-win b { display: block; font-family: var(--font-display); font-size: 1rem; color: var(--accent); }
+.pi-go { color: var(--muted); font-size: 1.2rem; line-height: 1; }
+.past-empty { color: var(--muted); font-size: .88rem; padding: 4px 0; }
+
+/* Course finder */
+.finder { display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--bg); }
+.finder select, .finder input { background: var(--card); }
+.f-results { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow-y: auto; border-radius: 8px; }
+.f-results li + li { border-top: 1px solid var(--line); }
+.f-hit { width: 100%; text-align: left; background: var(--card); border: 0; padding: 10px 12px; font: inherit; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+.f-hit:hover, .f-hit:focus-visible { background: var(--accent-soft); }
+.f-hit b { font-weight: 600; }
+.f-hit span { font-size: .8rem; color: var(--muted); }
+.f-preview { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.f-preview h3 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; }
+.f-checks { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .74rem; font-weight: 600; border-radius: 999px; padding: 3px 9px; border: 1px solid var(--line); color: var(--muted); }
+.chip.ok { border-color: var(--win); color: var(--win); }
+.chip.warn { border-color: var(--tie); color: var(--tie); }
+.parstrip { overflow-x: auto; }
+.parstrip table { border-collapse: collapse; font-size: .78rem; font-variant-numeric: tabular-nums; }
+.parstrip th, .parstrip td { padding: 3px 5px; text-align: center; border: 1px solid var(--line); min-width: 24px; }
+.parstrip th { color: var(--muted); font-weight: 600; }
+.attrib { font-size: .74rem; color: var(--muted); margin: 0; }
+.attrib a, .hint a { color: var(--accent); }
+
+/* Saved round viewer */
+.sheet-wrap { place-items: stretch center; padding: calc(env(safe-area-inset-top, 0px) + 12px) 12px calc(env(safe-area-inset-bottom, 0px) + 12px); }
+.sheet { width: 100%; max-width: 560px; background: var(--card); color: var(--ink); border-radius: 16px; display: flex; flex-direction: column; min-height: 0; max-height: 100%; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); animation: modalIn .22s ease-out both; }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; background: linear-gradient(160deg, var(--hero-1), var(--hero-2)); color: var(--hero-ink); }
+.sheet-head h2 { font-size: 1.3rem; line-height: 1.1; }
+.sheet-head .btn { color: var(--hero-ink); border-color: var(--hero-line); }
+.sheet-title { min-width: 0; }
+.eyebrow-dark { display: block; font-family: var(--font-display); font-weight: 600; font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--hero-soft); }
+.sheet-body { overflow-y: auto; padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+.locked { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--muted); }
+.rv-table-wrap { overflow-x: auto; }
+.rv-table { width: 100%; border-collapse: collapse; font-size: .86rem; font-variant-numeric: tabular-nums; }
+.rv-table th, .rv-table td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--line); }
+.rv-table th { font-family: var(--font-display); font-weight: 600; color: var(--muted); font-size: .82rem; white-space: nowrap; }
+.rv-table td.h { font-weight: 700; font-family: var(--font-display); }
+.rv-table td.won { background: var(--accent-soft); color: var(--win); font-weight: 700; border-radius: 6px; }
+.rv-table tr.sum td { font-weight: 700; background: var(--bg); }
+.rv-table .md { display: block; font-size: .6rem; color: var(--pop); letter-spacing: 1px; line-height: 1; }
 .label { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; color: var(--muted); }
 section.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; margin: 0; letter-spacing: .02em; }
@@ -282,6 +342,19 @@ footer { font-size: .78rem; color: var(--muted); }
   </header>
   <p class="status" id="status"><i></i><span></span></p>
 
+  <section class="finishbar" id="finishBar" hidden aria-live="polite">
+    <div><b>Round complete.</b> Save it to Past rounds to lock the scores.</div>
+    <button type="button" class="btn finish" id="finishTop">Finish &amp; save</button>
+  </section>
+
+  <section class="card" aria-labelledby="past-h">
+    <div class="card-title">
+      <h2 id="past-h">Past rounds</h2>
+      <span class="hint" id="pastCount"></span>
+    </div>
+    <ul class="past-list" id="pastList"></ul>
+  </section>
+
   <section class="card" aria-labelledby="setup-h">
     <h2 id="setup-h">Round setup</h2>
     <div class="row">
@@ -289,7 +362,27 @@ footer { font-size: .78rem; color: var(--muted); }
         <label class="label" for="course">Course</label>
         <select id="course"></select>
       </div>
-      <button type="button" class="btn primary" id="newcourse">New course</button>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn primary" id="findcourse" aria-expanded="false" aria-controls="finder">Find a course</button>
+      <button type="button" class="btn" id="newcourse">Create custom course</button>
+    </div>
+
+    <div class="finder" id="finder" hidden>
+      <div class="row">
+        <div class="field">
+          <label class="label" for="f-state">State</label>
+          <select id="f-state"></select>
+        </div>
+        <div class="field grow">
+          <label class="label" for="f-q">Course name</label>
+          <input id="f-q" type="search" placeholder="e.g. Haggin Oaks" autocomplete="off" enterkeyhint="search">
+        </div>
+      </div>
+      <p class="hint" id="f-msg" aria-live="polite">Pick a state or type at least 2 letters of a course name.</p>
+      <ul class="f-results" id="f-results"></ul>
+      <div class="f-preview" id="f-preview" hidden></div>
+      <p class="attrib">Course data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL) via <a href="https://opengolfapi.org" target="_blank" rel="noopener">OpenGolfAPI</a>. Community data, so check pars against the course's scorecard.</p>
     </div>
 
     <details class="ed" id="editor">
@@ -370,8 +463,10 @@ footer { font-size: .78rem; color: var(--muted); }
   </section>
 
   <div class="actions">
+    <button type="button" class="btn finish" id="finish" disabled>Finish &amp; save round</button>
     <button type="button" class="btn reset" id="reset">Reset round</button>
   </div>
+  <p class="hint" id="finishHint" style="margin-top:-10px">Enter every score to finish the round.</p>
 
   <section class="card" aria-labelledby="bk-h">
     <h2 id="bk-h">Backup</h2>
@@ -394,6 +489,30 @@ footer { font-size: .78rem; color: var(--muted); }
       </div>
     </div>
   </div>
+  <div class="modal" id="finishModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="finish-h" aria-describedby="finish-d">
+      <h2 id="finish-h">Finish and save this round?</h2>
+      <p id="finish-d">It goes to Past rounds and can't be edited after that. Scores clear for your next round. Players, course and settings stay.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="finishNo">Not yet</button>
+        <button type="button" class="btn finish" id="finishYes">Save round</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal sheet-wrap" id="roundView" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rv-title">
+      <div class="sheet-head">
+        <div class="sheet-title">
+          <span class="eyebrow-dark" id="rv-date"></span>
+          <h2 id="rv-title"></h2>
+        </div>
+        <button type="button" class="btn small" id="rvClose">Close</button>
+      </div>
+      <div class="sheet-body" id="rv-body"></div>
+    </div>
+  </div>
+
   <div class="boom" id="boom" hidden><canvas id="boomcv" aria-hidden="true"></canvas></div>
 
   <div class="celebrate" id="celebrate" hidden>
@@ -406,7 +525,7 @@ footer { font-size: .78rem; color: var(--muted); }
     </div>
   </div>
 
-  <footer>Works with no signal once it has been opened from your home screen. Scores save on this phone as you type.</footer>
+  <footer>Works with no signal once it has been opened from your home screen. Scores save on this phone as you type. Course search uses OpenGolfAPI and needs a connection; added courses work offline.</footer>
 </div>
 
 <script>
@@ -426,9 +545,11 @@ function defaults() {
     holes: 18, nine: "front", n: 4,
     names: ["", "", "", ""],
     baseTee: 1, teeMoves: true, gap: 3, buyin: "", subtract: false,
-    scores: emptyScores(), savedAt: null
+    scores: emptyScores(), savedAt: null,
+    history: []
   };
 }
+const HISTORY_MAX = 10;
 function blankCourse() {
   const yds = () => Array(18).fill("");
   return {
@@ -446,6 +567,9 @@ function sanitize(o) {
   while (S2.names.length < 4) S2.names.push("");
   S2.n = Math.min(4, Math.max(2, parseInt(S2.n, 10) || 4));
   S2.holes = S2.holes === 9 ? 9 : 18;
+  S2.history = (Array.isArray(S2.history) ? S2.history : [])
+    .filter(r => r && r.id && Array.isArray(r.names) && Array.isArray(r.scores))
+    .slice(0, HISTORY_MAX);
   return S2;
 }
 
@@ -553,11 +677,18 @@ function computeRunning(scores, n, pars) {
 
 const toPar = (d) => d === 0 ? "E" : (d > 0 ? "+" + d : String(d));
 const parCls = (d) => d < 0 ? "under" : "over";
+// Short tee label: first letter, or first three letters when two tees share a first letter.
+function teeAbbr(tees, idx) {
+  const name = String((tees[idx] && tees[idx].name) || "?").trim() || "?";
+  const f = name[0].toLowerCase();
+  const clash = tees.some((t, j) => j !== idx && String((t && t.name) || "").trim().slice(0, 1).toLowerCase() === f);
+  return clash ? name.slice(0, 3) : name[0];
+}
 function teeChip(idx, ci, short) {
   const tee = idx == null ? null : course().tees[idx];
   if (!tee) return `<span class="tee t-none">tee ?</span>`;
   const y = num(tee.yds[ci]);
-  const label = short ? (y ? `${esc((tee.name || "?")[0])} ${y}` : esc(tee.name)) : esc(tee.name);
+  const label = short ? (y ? `${esc(teeAbbr(course().tees, idx))} ${y}` : esc(tee.name)) : esc(tee.name);
   return `<span class="tee t-${COLORS.includes(tee.color) ? tee.color : "white"}">${label}</span>`;
 }
 const pressSeg = (id, val) => $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === String(val))));
@@ -666,7 +797,7 @@ function dotsHtml(m) {
 }
 
 const playerNames = () => range(0, S.n).map(i => (S.names[i] || "").trim() || `Player ${i + 1}`);
-let lastR = null;
+let lastR = null, lastCalc = null;
 
 // Sticky title bar: current hole, plus each player's score, mulligans and tee for that hole.
 function renderHero(names, R, RUN, TEES, nextH, pars, c, len) {
@@ -693,7 +824,7 @@ function renderHero(names, R, RUN, TEES, nextH, pars, c, len) {
     const md = m == null ? "" : m === 0 ? `<em class="z">no mull</em>` : `<span class="md" aria-label="${m} mulligan${m > 1 ? "s" : ""}">${"<i></i>".repeat(m)}</span>`;
     const ti = nextH !== undefined && TEES[nextH] ? TEES[nextH][i] : null;
     const tee = ti != null ? c.tees[ti] : null;
-    const td = tee ? `<span class="td" aria-label="${esc(tee.name)} tee"><i class="hd-${COLORS.includes(tee.color) ? tee.color : "white"}"></i>${esc((tee.name || "?")[0])}</span>` : "";
+    const td = tee ? `<span class="td" aria-label="${esc(tee.name)} tee"><i class="hd-${COLORS.includes(tee.color) ? tee.color : "white"}"></i>${esc(teeAbbr(c.tees, ti))}</span>` : "";
     return `<div class="hp${best > 0 && R.skins[i] === best ? " lead" : ""}" data-i="${i}">
       ${R.skins[i] ? `<span class="sk" aria-label="${R.skins[i]} skins">${R.skins[i]}</span>` : ""}
       <div class="nm">${esc(nm)}</div><div class="sc ${cls}">${sc}</div><div class="meta">${md}${td}</div>
@@ -710,7 +841,13 @@ function update() {
   const TEES = computeTees(S.scores, n, len, baseTee(), c.tees.length, S.gap, S.teeMoves);
   const nextH = range(0, len).find(h => S.scores[h].slice(0, n).some(v => v === ""));
   lastR = R;
+  lastCalc = { R, RUN, TEES, pars, sq, names, c, len, n };
   renderHero(names, R, RUN, TEES, nextH, pars, c, len);
+  const anyScore = range(0, len).some(h => S.scores[h].slice(0, n).some(v => v !== ""));
+  const complete = nextH === undefined && anyScore;
+  $("finish").disabled = !complete;
+  $("finishBar").hidden = !complete;
+  $("finishHint").textContent = complete ? "Round complete. Finishing locks it into Past rounds." : "Enter every score to finish the round.";
 
   const subFill = (id, arr, par) => {
     const el = $("sub-" + id); if (!el) return;
@@ -795,8 +932,358 @@ function update() {
 
 function renderAll() {
   if (!S.courses.some(c => c.id === S.courseId)) S.courseId = S.courses[0].id;
-  renderSetup(); renderEditor(); renderHoles(); update(); renderStatus();
+  renderSetup(); renderEditor(); renderHoles(); update(); renderStatus(); renderPast();
 }
+
+// ---------- Past rounds: up to 10 finished rounds, stored on this phone, read-only ----------
+const fmtDate = (t) => new Date(t).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" });
+const fmtTime = (t) => new Date(t).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+function snapshotRound() {
+  const { R, RUN, TEES, pars, sq, names, c, len, n } = lastCalc;
+  return {
+    id: "r" + Date.now().toString(36),
+    at: Date.now(),
+    course: c.name || "Untitled course",
+    holes: len,
+    courseHoles: sq.map(ci => ci + 1),
+    hcps: sq.map(ci => num(c.holes[ci] && c.holes[ci].hcp)),
+    pars: pars.slice(),
+    n, names: names.slice(),
+    scores: S.scores.slice(0, len).map(r => r.slice(0, n)),
+    mulls: R.holes.map(h => h.mulls ? h.mulls.slice() : null),
+    winners: R.holes.map(h => h.winner),
+    pots: R.holes.map(h => h.text && h.text.pot ? h.text.pot : null),
+    tees: TEES.map(t => t ? t.slice() : null),
+    teeInfo: c.tees.map(t => ({ name: t.name, color: t.color })),
+    skins: R.skins.slice(),
+    unclaimed: R.carrying,
+    totals: RUN.tot.map(x => ({ s: x.s, p: x.p, c: x.c, miss: x.miss })),
+    out: len === 18 ? RUN.out.map(x => ({ s: x.s, p: x.p, c: x.c, miss: x.miss })) : null,
+    inn: len === 18 ? RUN.in.map(x => ({ s: x.s, p: x.p, c: x.c, miss: x.miss })) : null,
+    buyin: parseFloat(S.buyin) || 0,
+    subtract: S.subtract
+  };
+}
+
+function winnerLine(r) {
+  const best = Math.max(...r.skins);
+  if (best <= 0) return { top: "No skins", sub: "" };
+  const who = r.names.filter((_, i) => r.skins[i] === best);
+  return { top: who.length > 1 ? "Tie" : who[0], sub: `${who.length > 1 ? who.join(" & ") + " · " : ""}${best} skin${best > 1 ? "s" : ""}` };
+}
+
+function renderPast() {
+  const list = $("pastList");
+  const H = S.history || [];
+  $("pastCount").textContent = H.length ? `${H.length} of ${HISTORY_MAX} saved` : "";
+  if (!H.length) {
+    list.innerHTML = `<li class="past-empty">Finished rounds show up here. The last ${HISTORY_MAX} are kept on this phone.</li>`;
+    return;
+  }
+  list.innerHTML = H.map(r => {
+    const w = winnerLine(r);
+    return `<li><button type="button" class="past-item" data-id="${esc(r.id)}" aria-label="Open ${esc(r.course)}, ${fmtDate(r.at)}">
+      <span style="min-width:0"><span class="pi-name">${esc(r.course)}</span><span class="pi-meta" style="display:block">${fmtDate(r.at)} · ${r.holes} holes · ${r.n} players</span></span>
+      <span class="pi-win"><b>${esc(w.top)}</b>${esc(w.sub)}</span>
+      <span class="pi-go" aria-hidden="true">›</span>
+    </button></li>`;
+  }).join("");
+}
+
+function scoreLabel(x) {
+  if (!x || !x.c) return "–";
+  return x.miss ? String(x.s) : `${x.s} <span class="${parCls(x.s - x.p)}">${toPar(x.s - x.p)}</span>`;
+}
+
+function openRound(id) {
+  const r = (S.history || []).find(x => x.id === id);
+  if (!r) return;
+  $("rv-date").textContent = `${fmtDate(r.at)} · ${fmtTime(r.at)} · ${r.holes} holes`;
+  $("rv-title").textContent = r.course;
+  const totalSkins = r.skins.reduce((a, b) => a + b, 0);
+  const per = r.buyin > 0 && totalSkins ? (r.buyin * r.n) / totalSkins : 0;
+  const best = Math.max(...r.skins);
+  const stand = `<div class="stand" style="--n:${r.n}">${r.names.map((nm, i) => `
+    <div class="st${best > 0 && r.skins[i] === best ? " lead" : ""}">
+      <div class="n">${esc(nm)}</div>
+      <div class="s">${r.skins[i]}</div>
+      <div class="t">${scoreLabel(r.totals[i])}</div>
+      <div class="m">${per ? fmtMoney(r.skins[i] * per) : (r.skins[i] === 1 ? "skin" : "skins")}</div>
+    </div>`).join("")}</div>`;
+  const teeLetter = (h, i) => {
+    const t = r.tees[h] ? r.teeInfo[r.tees[h][i]] : null;
+    return t && r.teeInfo.length > 1 ? `<span class="md" style="color:var(--muted)">${esc(teeAbbr(r.teeInfo, r.tees[h][i]))}</span>` : "";
+  };
+  const rows = r.scores.map((row, h) => {
+    const cells = row.map((v, i) => {
+      const m = r.mulls[h] ? r.mulls[h][i] : 0;
+      return `<td class="${r.winners[h] === i ? "won" : ""}">${esc(v || "–")}${m ? `<span class="md">${"•".repeat(m)}</span>` : ""}${teeLetter(h, i)}</td>`;
+    }).join("");
+    const sub = h === 8 && r.out ? `<tr class="sum"><td>Out</td><td>${sumPars(r.pars, 0, 9)}</td>${r.out.map(x => `<td>${x.c ? x.s : "–"}</td>`).join("")}</tr>` : "";
+    return `<tr><td class="h">${h + 1}</td><td>${r.pars[h] ?? "–"}</td>${cells}</tr>${sub}`;
+  }).join("");
+  const inRow = r.inn ? `<tr class="sum"><td>In</td><td>${sumPars(r.pars, 9, 18)}</td>${r.inn.map(x => `<td>${x.c ? x.s : "–"}</td>`).join("")}</tr>` : "";
+  const totRow = `<tr class="sum"><td>Total</td><td>${sumPars(r.pars, 0, r.holes)}</td>${r.totals.map(x => `<td>${x.c ? x.s : "–"}</td>`).join("")}</tr>`;
+  const notes = [];
+  if (r.buyin > 0) notes.push(`Pot ${fmtMoney(r.buyin * r.n)}${per ? `, ${fmtMoney(per)} per skin` : ""}.`);
+  if (r.unclaimed > 0) notes.push(`${r.unclaimed} skin${r.unclaimed > 1 ? "s" : ""} went unclaimed after a tie on the last hole.`);
+  if (r.subtract) notes.push("Mulligans counted as strokes off.");
+  $("rv-body").innerHTML = `
+    <span class="locked"><span class="chip ok">Final</span> Saved rounds are locked and can't be edited.</span>
+    ${stand}
+    <div class="rv-table-wrap"><table class="rv-table">
+      <thead><tr><th>Hole</th><th>Par</th>${r.names.map(nm => `<th>${esc(nm)}</th>`).join("")}</tr></thead>
+      <tbody>${rows}${inRow}${totRow}</tbody>
+    </table></div>
+    <p class="hint">Highlighted scores won the skin. Gold dots are the mulligans each player had on that hole.${notes.length ? " " + notes.join(" ") : ""}</p>`;
+  $("roundView").hidden = false;
+  $("rvClose").focus();
+}
+function sumPars(pars, a, b) { const s = pars.slice(a, b); return s.every(p => p != null) ? s.reduce((x, y) => x + y, 0) : "–"; }
+function closeRound() { $("roundView").hidden = true; }
+
+$("pastList").addEventListener("click", e => { const b = e.target.closest(".past-item"); if (b) openRound(b.dataset.id); });
+$("rvClose").addEventListener("click", closeRound);
+$("roundView").addEventListener("click", e => { if (e.target.id === "roundView") closeRound(); });
+
+function openFinish() {
+  if ($("finish").disabled) return;
+  clearTimeout(celeTimer); clearTimeout(celeHide); $("celebrate").hidden = true;
+  $("finishModal").hidden = false; $("finishNo").focus();
+}
+function closeFinish() { $("finishModal").hidden = true; }
+$("finish").addEventListener("click", openFinish);
+$("finishTop").addEventListener("click", openFinish);
+$("finishNo").addEventListener("click", closeFinish);
+$("finishModal").addEventListener("click", e => { if (e.target.id === "finishModal") closeFinish(); });
+$("finishYes").addEventListener("click", () => {
+  closeFinish();
+  update();
+  const snap = snapshotRound();
+  S.history = [snap, ...(S.history || [])].slice(0, HISTORY_MAX);
+  S.scores = emptyScores();
+  clearTimeout(celeTimer); $("celebrate").hidden = true;
+  save(); renderAll();
+  window.scrollTo({ top: 0, behavior: "auto" });
+  toast("Round saved to Past rounds.");
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (!$("roundView").hidden) closeRound();
+  if (!$("finishModal").hidden) closeFinish();
+});
+
+// ---------- Course finder (OpenGolfAPI) ----------
+const OGA = "https://api.opengolfapi.org";
+const STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
+const pick = (o, keys) => { if (!o) return null; for (const k of keys) if (o[k] != null && o[k] !== "") return o[k]; return null; };
+const numOf = (v) => { if (v == null) return null; if (typeof v === "object") v = pick(v, ["yardage", "yards", "value", "length"]); const n = parseInt(v, 10); return isNaN(n) ? null : n; };
+
+function guessColor(name, k) {
+  const s = String(name || "").toLowerCase();
+  for (const c of COLORS) if (s.includes(c)) return c;
+  if (s.includes("yellow") || s.includes("champ") || s.includes("tips")) return "gold";
+  if (s.includes("forward") || s.includes("women") || s.includes("ladies")) return "red";
+  return ["red", "white", "blue", "gold", "black"][k % 5];
+}
+
+// Turns OpenGolfAPI responses (course detail, /tees, /holes) into this app's course format.
+// Field names are matched loosely so small differences in the API's responses still map.
+function mapApiCourse(detail, teesResp, holesResp) {
+  const d = detail || {};
+  const holeSources = [d.holes_data, d.scorecard, Array.isArray(d.holes) ? d.holes : null, holesResp && (holesResp.holes || holesResp.scorecard)]
+    .filter(a => Array.isArray(a) && a.length);
+  const byHole = {};
+  holeSources.forEach(src => src.forEach((it, idx) => {
+    const h = numOf(pick(it, ["hole_number", "hole", "number", "hole_no"])) || idx + 1;
+    const e = byHole[h] || (byHole[h] = { par: null, hcp: null, yard: [] });
+    if (e.par == null) e.par = numOf(it.par);
+    if (e.hcp == null) e.hcp = numOf(pick(it, ["handicap_index", "handicap", "stroke_index", "hcp", "si"]));
+    const y = pick(it, ["yardages", "yardage", "yards", "tees", "tee_yardages"]);
+    if (y != null) e.yard.push(y);
+  }));
+  let tees = [d.tees, teesResp && teesResp.tees, Array.isArray(teesResp) ? teesResp : null].find(a => Array.isArray(a) && a.length) || [];
+  tees = tees.map((t, k) => ({
+    raw: t, k,
+    name: String(pick(t, ["tee_name", "name", "color", "tee", "tee_color"]) || `Tee ${k + 1}`),
+    total: numOf(pick(t, ["total_yardage", "yardage", "yards", "total_yards", "length"])),
+    per: pick(t, ["holes", "hole_yardages", "yardages", "holes_data"])
+  }));
+  // If there are no tee sets but holes carry yardages keyed by tee name, build tees from those keys.
+  if (!tees.length) {
+    const keys = new Set();
+    Object.values(byHole).forEach(e => e.yard.forEach(y => { if (y && typeof y === "object" && !Array.isArray(y)) Object.keys(y).forEach(k => keys.add(k)); }));
+    tees = [...keys].map((name, k) => ({ raw: {}, k, name, total: null, per: null }));
+  }
+  const holeNums = Object.keys(byHole).map(Number).filter(Boolean);
+  const declared = numOf(pick(d, ["holes", "num_holes", "hole_count", "total_holes"])) || (typeof d["golf:holes"] === "number" ? d["golf:holes"] : null);
+  const maxHole = Math.max(holeNums.length ? Math.max(...holeNums) : 0, declared || 0);
+  const L = maxHole && maxHole <= 9 ? 9 : 18;
+  const yardFor = (tee, h) => {
+    if (Array.isArray(tee.per)) {
+      const v = tee.per.find ? tee.per.find(x => x && typeof x === "object" && numOf(pick(x, ["hole_number", "hole", "number"])) === h) : null;
+      const n = v ? numOf(v) : numOf(tee.per[h - 1]);
+      if (n) return n;
+    }
+    const e = byHole[h]; if (!e) return null;
+    for (const y of e.yard) {
+      if (typeof y === "number" || typeof y === "string") { if (tees.length === 1) return numOf(y); continue; }
+      if (Array.isArray(y)) {
+        const m = y.find(x => x && typeof x === "object" && String(pick(x, ["tee_name", "name", "tee", "color"]) || "").toLowerCase() === tee.name.toLowerCase());
+        const n = m ? numOf(m) : numOf(y[tee.k]);
+        if (n) return n;
+      } else if (y && typeof y === "object") {
+        const key = Object.keys(y).find(k => k.toLowerCase() === tee.name.toLowerCase());
+        if (key) { const n = numOf(y[key]); if (n) return n; }
+      }
+    }
+    return null;
+  };
+  let appTees = tees.map(t => ({ name: t.name, color: guessColor(t.name, t.k), yds: range(1, 19).map(h => { const y = yardFor(t, h); return y ? String(y) : ""; }), total: t.total }));
+  appTees.forEach(t => { if (!t.total) t.total = t.yds.slice(0, L).reduce((a, y) => a + (num(y) || 0), 0) || null; });
+  appTees.sort((a, b) => (a.total || 0) - (b.total || 0));
+  if (!appTees.length) appTees = blankCourse().tees;
+  appTees = appTees.slice(0, 5).map(({ name, color, yds }) => ({ name, color, yds }));
+  const holes = range(1, L + 1).map(h => ({ par: byHole[h] && byHole[h].par != null ? String(byHole[h].par) : "", hcp: byHole[h] && byHole[h].hcp != null ? String(byHole[h].hcp) : "" }));
+  const id = String(pick(d, ["id", "course_id", "uuid"]) || "");
+  const course = {
+    id: "oga-" + (id || Date.now().toString(36)),
+    name: String(pick(d, ["course_name", "name", "club_name", "facility_name"]) || "Course"),
+    holes, tees: appTees,
+    source: { api: "opengolfapi", id, city: pick(d, ["city", "town"]) || "", state: pick(d, ["state", "state_code"]) || "", fetchedAt: Date.now() }
+  };
+  const stats = {
+    holes: L,
+    pars: holes.filter(h => h.par !== "").length,
+    hcps: holes.filter(h => h.hcp !== "").length,
+    tees: tees.length,
+    yards: appTees.some(t => t.yds.slice(0, L).some(y => y !== "")),
+    extra: maxHole > 18 ? maxHole : 0
+  };
+  return { course, stats };
+}
+
+async function ogaGet(path) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
+  try {
+    const r = await fetch(OGA + path, { signal: ctrl.signal, headers: { Accept: "application/json" } });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  } finally { clearTimeout(timer); }
+}
+const tryGet = (path) => ogaGet(path).catch(() => null);
+
+let finderSeq = 0, finderTimer = null, finderHits = [], finderPick = null;
+function initFinder() {
+  $("f-state").innerHTML = `<option value="">Any state</option>` + STATES.map(s => `<option${s === S.lastState ? " selected" : ""}>${s}</option>`).join("");
+}
+function setFinderMsg(t) { $("f-msg").textContent = t; }
+function hitLine(c) {
+  const bits = [];
+  const city = pick(c, ["city", "town"]), st = pick(c, ["state", "state_code"]);
+  if (city || st) bits.push([city, st].filter(Boolean).join(", "));
+  const holes = numOf(pick(c, ["holes", "num_holes", "hole_count", "total_holes"]));
+  if (holes) bits.push(`${holes} holes`);
+  const par = numOf(pick(c, ["par", "total_par"]));
+  if (par) bits.push(`Par ${par}`);
+  const type = pick(c, ["course_type", "type", "access"]);
+  if (type && typeof type === "string") bits.push(type[0].toUpperCase() + type.slice(1));
+  return bits.join(" · ");
+}
+async function runSearch() {
+  const st = $("f-state").value, q = $("f-q").value.trim();
+  $("f-preview").hidden = true;
+  if (!st && q.length < 2) { $("f-results").innerHTML = ""; setFinderMsg("Pick a state or type at least 2 letters of a course name."); return; }
+  const seq = ++finderSeq;
+  setFinderMsg("Searching…");
+  const qs = new URLSearchParams({ limit: "50" });
+  if (q) qs.set("q", q);
+  if (st) qs.set("state", st);
+  let data = null;
+  try { data = await ogaGet("/v1/courses/search?" + qs); }
+  catch (e) { if (seq === finderSeq) { $("f-results").innerHTML = ""; setFinderMsg("Couldn't reach the course database. Check your signal and try again, or create a custom course."); } return; }
+  if (seq !== finderSeq) return;
+  finderHits = (data && (data.courses || data.results || (Array.isArray(data) ? data : []))) || [];
+  finderHits.sort((a, b) => String(pick(a, ["course_name", "name"]) || "").localeCompare(String(pick(b, ["course_name", "name"]) || "")));
+  if (!finderHits.length) { $("f-results").innerHTML = ""; setFinderMsg("No courses found. Try fewer letters, another state, or create a custom course."); return; }
+  setFinderMsg(`${finderHits.length}${finderHits.length >= 50 ? "+" : ""} course${finderHits.length > 1 ? "s" : ""}. Tap one to preview it.${finderHits.length >= 50 ? " Type more of the name to narrow it down." : ""}`);
+  $("f-results").innerHTML = finderHits.map((c, i) => `<li><button type="button" class="f-hit" data-i="${i}"><b>${esc(pick(c, ["course_name", "name", "club_name"]) || "Unnamed course")}</b><span>${esc(hitLine(c))}</span></button></li>`).join("");
+}
+function queueSearch() { clearTimeout(finderTimer); finderTimer = setTimeout(runSearch, 400); }
+
+async function previewCourse(i) {
+  const hit = finderHits[i]; if (!hit) return;
+  const id = pick(hit, ["id", "course_id", "uuid"]);
+  const box = $("f-preview");
+  box.hidden = false;
+  box.innerHTML = `<p class="hint">Loading the scorecard…</p>`;
+  box.scrollIntoView({ block: "nearest", behavior: reduceMotion() ? "auto" : "smooth" });
+  const enc = encodeURIComponent(id);
+  const [full, basic, tees, holes] = await Promise.all([tryGet(`/api/v1/courses/${enc}`), tryGet(`/v1/courses/${enc}`), tryGet(`/v1/courses/${enc}/tees`), tryGet(`/v1/courses/${enc}/holes`)]);
+  if (!full && !basic) { box.innerHTML = `<p class="hint">Couldn't load this course. Check your signal and try again.</p>`; return; }
+  const detail = Object.assign({}, hit, basic || {}, full || {});
+  if (!detail.scorecard && basic && basic.scorecard) detail.scorecard = basic.scorecard;
+  finderPick = mapApiCourse(detail, tees, holes);
+  renderPreview();
+}
+
+function renderPreview() {
+  const { course: c, stats } = finderPick;
+  const L = c.holes.length;
+  const parTot = c.holes.reduce((a, h) => a + (num(h.par) || 0), 0);
+  const where = [c.source.city, c.source.state].filter(Boolean).join(", ");
+  const chip = (ok, okText, noText, warn) => `<span class="chip ${ok ? "ok" : warn ? "warn" : ""}">${ok ? "✓ " + okText : noText}</span>`;
+  const existing = S.courses.find(x => x.source && x.source.api === "opengolfapi" && x.source.id === c.source.id);
+  const head = (a, b) => `<tr><th>Hole</th>${range(a, b).map(h => `<th>${h + 1}</th>`).join("")}</tr>`;
+  const prow = (a, b) => `<tr><th>Par</th>${range(a, b).map(h => `<td>${esc(c.holes[h].par || "–")}</td>`).join("")}</tr>`;
+  const hrow = (a, b) => stats.hcps ? `<tr><th>Hcp</th>${range(a, b).map(h => `<td>${esc(c.holes[h].hcp || "–")}</td>`).join("")}</tr>` : "";
+  const strip = (a, b) => `<div class="parstrip"><table>${head(a, b)}${prow(a, b)}${hrow(a, b)}</table></div>`;
+  $("f-preview").innerHTML = `
+    <div><h3>${esc(c.name)}</h3><span class="hint">${esc([where, `${L} holes`, stats.pars === L ? `Par ${parTot}` : ""].filter(Boolean).join(" · "))}</span></div>
+    <div class="f-checks">
+      ${chip(stats.pars === L, "Pars for every hole", stats.pars ? `Pars for ${stats.pars} of ${L} holes` : "No hole pars yet", true)}
+      ${chip(stats.hcps >= L, "Hole handicaps", "No hole handicaps")}
+      ${chip(stats.tees > 0, `${stats.tees} tee${stats.tees > 1 ? "s" : ""}: ${c.tees.map(t => t.name).join(", ")}`, "No tee info")}
+      ${chip(stats.yards, "Yardage by hole", "No hole yardages")}
+    </div>
+    ${strip(0, Math.min(9, L))}${L > 9 ? strip(9, L) : ""}
+    ${stats.extra ? `<p class="hint">This facility lists ${stats.extra} holes. The first 18 were loaded, and you can edit them after adding.</p>` : ""}
+    ${stats.pars < L ? `<p class="hint">Missing pars can be filled in under Edit this course. Until then, the running score shows total strokes.</p>` : ""}
+    <div class="actions">
+      <button type="button" class="btn finish" id="f-add">${existing ? "Update &amp; use this course" : "Add &amp; use this course"}</button>
+      <button type="button" class="btn" id="f-back">Back to results</button>
+    </div>`;
+}
+
+function addPickedCourse() {
+  if (!finderPick) return;
+  const c = clone(finderPick.course);
+  const i = S.courses.findIndex(x => x.source && x.source.api === "opengolfapi" && x.source.id === c.source.id);
+  if (i >= 0) { c.id = S.courses[i].id; S.courses[i] = c; } else S.courses.push(c);
+  S.courseId = c.id;
+  if (c.holes.length === 9 && S.holes === 18) S.holes = 9;
+  S.baseTee = Math.min(1, c.tees.length - 1);
+  save(); renderAll();
+  closeFinder();
+  toast(`${c.name} ${i >= 0 ? "updated" : "added"}.`);
+}
+function openFinder() {
+  $("finder").hidden = false; $("findcourse").setAttribute("aria-expanded", "true");
+  initFinder(); $("f-q").focus();
+  if ($("f-state").value || $("f-q").value.trim().length >= 2) runSearch();
+}
+function closeFinder() { $("finder").hidden = true; $("findcourse").setAttribute("aria-expanded", "false"); $("f-preview").hidden = true; }
+$("findcourse").addEventListener("click", () => { $("finder").hidden ? openFinder() : closeFinder(); });
+$("f-state").addEventListener("change", e => { S.lastState = e.target.value; save(); runSearch(); });
+$("f-q").addEventListener("input", queueSearch);
+$("f-q").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); clearTimeout(finderTimer); runSearch(); } });
+$("f-results").addEventListener("click", e => { const b = e.target.closest(".f-hit"); if (b) previewCourse(+b.dataset.i); });
+$("f-preview").addEventListener("click", e => {
+  if (e.target.id === "f-add") addPickedCourse();
+  if (e.target.id === "f-back") { $("f-preview").hidden = true; $("f-results").scrollIntoView({ block: "nearest" }); }
+});
 
 // Setup events
 $("course").addEventListener("change", e => { S.courseId = e.target.value; S.baseTee = Math.min(1, course().tees.length - 1); save(); renderAll(); });
